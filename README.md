@@ -1,70 +1,138 @@
-# Getting Started with Create React App
+# Marvel Trackr — Frontend
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A React single-page application for tracking your personal Marvel comic collection. Browse your collection by era, manage purchase status, track spending, upload cover art, and reorder books via drag-and-drop.
 
-## Available Scripts
+---
 
-In the project directory, you can run:
+## Tech Stack
 
-### `npm start`
+| Category | Library / Tool |
+|---|---|
+| Framework | React 18 (Create React App) |
+| UI Components | React Bootstrap, Radix UI |
+| Styling | Bootstrap 5, styled-components, CSS modules |
+| Icons | Font Awesome 6, Radix Icons |
+| Drag & Drop | @dnd-kit/core, @dnd-kit/sortable |
+| Animations | @react-spring/web, react-transition-group |
+| Auth | JWT (stored in localStorage) |
+| Testing | React Testing Library, Jest |
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+---
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Prerequisites
 
-### `npm test`
+- Node.js (v16+) and npm
+- [MCT-Backend](../MCT-Backend/README.md) running at `http://localhost:5000`
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+---
 
-### `npm run build`
+## Getting Started
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+```bash
+# Install dependencies
+npm install
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+# Start the development server
+npm start
+```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+The app opens at **http://localhost:3000**. All `/api/*` requests are proxied to `http://localhost:5000`.
 
-### `npm run eject`
+```bash
+# Run tests
+npm test
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+# Build for production
+npm run build
+```
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+---
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+## Project Structure
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+```
+MCT/
+├── public/
+│   └── Images/               # Static image assets
+├── src/
+│   ├── App.js                # Root component — auth state, login modal
+│   ├── components/
+│   │   ├── AppHeader/            # Top navigation bar (login/logout, user display)
+│   │   ├── ComicListDesktop.js   # Main list — fetches comics, drag-drop reorder
+│   │   ├── ComicCardMobile.js    # Individual comic card with detail modal
+│   │   ├── AddComic.js           # Create / edit comic form
+│   │   ├── EventCard.js          # Full-width card for Marvel events
+│   │   ├── EraHeader/            # Section header with per-era statistics
+│   │   └── ProgressHeader/       # Global collection statistics bar
+│   └── utils/
+│       └── utils.js          # Star rendering and status bar helpers
+└── package.json
+```
 
-## Learn More
+---
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## Authentication
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+The app uses JWT Bearer token authentication.
 
-### Code Splitting
+- On load, the stored token (`mct_token`) and user (`mct_user`) are read from `localStorage` and their expiry is validated.
+- Login sends `POST /api/users/login` with `{ email, password }` and stores the returned `{ token, username }`.
+- Authenticated requests include `Authorization: Bearer <token>` in the header.
+- Logout clears both localStorage keys and resets app state.
+- Read-only actions (viewing comics) do not require login.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+---
 
-### Analyzing the Bundle Size
+## Key Features
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+### Collection Management
+- Add, edit, and delete comics with full metadata
+- Drag-and-drop reordering (enable via the **Edit** mode toggle)
+- Comics are grouped by **Era** (e.g., Silver Age, Modern Age)
 
-### Making a Progressive Web App
+### Metadata Fields
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+| Field | Description |
+|---|---|
+| Title | Comic or trade paperback title |
+| Year | Publication year |
+| Era | Collection era / reading order group |
+| Description | Summary or notes |
+| Purchase Status | Not Purchased → Ordered → Pre-Ordered → Purchased |
+| Format | Hardcover or Paperback |
+| Cover Art | Uploaded image (served from the backend) |
+| Key Characters | Tagged characters with autocomplete suggestions |
+| Issues | Collected issues (e.g., "Collects SERIES #1–14") |
+| Rating | 0–5 stars with half-star increments |
+| Pages | Page count |
+| Cost | Price in USD |
+| Link | Amazon or retailer link |
+| Event | Marks the book as a Marvel event (full-width card) |
 
-### Advanced Configuration
+### Statistics
+- **ProgressHeader** — overall progress bar, total spent, total pages, average rating
+- **EraTitle** — per-era comic count, spending, pages, and average rating
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+---
 
-### Deployment
+## API Integration
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+The frontend proxies requests to the backend via the `"proxy"` field in `package.json`.
 
-### `npm run build` fails to minify
+| Method | Endpoint | Auth | Purpose |
+|---|---|---|---|
+| POST | `/api/users/login` | No | Authenticate user |
+| GET | `/api/comics` | No | Fetch all comics |
+| POST | `/api/comics` | Yes | Create comic |
+| PUT | `/api/comics/:id` | Yes | Update comic |
+| DELETE | `/api/comics/:id` | Yes | Delete comic |
+| POST | `/api/comics/reorder` | Yes | Save drag-drop order |
+| POST | `/api/comics/upload` | Yes | Upload cover art image |
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Cover art images are served directly from the backend at `http://localhost:5000/images/<filename>`.
+
+---
+
+## Environment Variables
+
+The app currently uses no `.env` file — the backend URL is set via the proxy in `package.json`. For a production deployment, update the proxy target or introduce a `REACT_APP_API_BASE_URL` environment variable.

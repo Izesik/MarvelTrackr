@@ -1,12 +1,12 @@
 .App {
-  background: #0d1117;
+  background: #0a0c10;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
   padding: 0px;
-  overflow: hidden; /* Ensures no overflow causes white bars */
+  overflow: hidden;
 }
 
 .App-logo {
@@ -34,14 +34,79 @@
 }
 
 .App-footer {
-  text-align: center;
-  padding: 15px;
-  color: #bfbdc1;
-  font-size: 0.9rem;
-  font-weight: bold;
-  margin-top: 20px;
   position: relative;
   width: 100%;
+  background: #0d0f14;
+  border-top: 3px solid #e11d48;
+  padding: 32px 24px 28px;
+  margin-top: 48px;
+  overflow: hidden;
+  box-sizing: border-box;
+  text-align: center;
+}
+
+/* Halftone texture */
+.App-footer::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(circle, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+  background-size: 14px 14px;
+  pointer-events: none;
+}
+
+/* Left red bleed */
+.App-footer::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 200px;
+  height: 100%;
+  background: radial-gradient(ellipse at bottom left, rgba(225, 29, 72, 0.07) 0%, transparent 65%);
+  pointer-events: none;
+}
+
+.footer-inner {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  margin-bottom: 10px;
+  flex-wrap: wrap;
+}
+
+.footer-brand {
+  font-family: 'Bebas Neue', Impact, 'Arial Black', sans-serif;
+  font-size: 1.7rem;
+  letter-spacing: 4px;
+  color: #f8fafc;
+  line-height: 1;
+}
+
+.footer-dot {
+  color: #e11d48;
+  font-size: 0.6rem;
+  line-height: 1;
+}
+
+.footer-tagline {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: #4b5563;
+}
+
+.footer-sub {
+  position: relative;
+  z-index: 1;
+  margin: 0;
+  font-size: 0.7rem;
+  color: #2d3340;
+  letter-spacing: 0.5px;
 }
 
 .App-link {
@@ -76,13 +141,14 @@ img:hover + div {
 
 .login-modal {
   position: relative;
-  background: #161b22;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 12px;
+  background: #111318;
+  border: 1.5px solid #1c2030;
+  border-top: 4px solid #e11d48;
+  border-radius: 0;
   padding: 36px 32px 32px;
   width: 100%;
   max-width: 360px;
-  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.6);
 }
 
 .login-close {
@@ -104,9 +170,11 @@ img:hover + div {
 
 .login-title {
   margin: 0 0 24px;
-  font-size: 1.2rem;
-  font-weight: 600;
-  color: #f1f5f9;
+  font-family: 'Bebas Neue', Impact, 'Arial Black', sans-serif;
+  font-size: 1.6rem;
+  font-weight: 400;
+  letter-spacing: 3px;
+  color: #f8fafc;
   text-align: center;
 }
 
@@ -117,18 +185,18 @@ img:hover + div {
 }
 
 .login-input {
-  background: #0d1117;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 7px;
+  background: #0a0c10;
+  border: 1.5px solid rgba(255, 255, 255, 0.08);
+  border-radius: 0;
   padding: 10px 14px;
   color: #f1f5f9;
-  font-size: 0.9rem;
+  font-size: 0.88rem;
   outline: none;
   transition: border-color 0.15s;
 }
 
 .login-input:focus {
-  border-color: rgba(255, 255, 255, 0.3);
+  border-color: #e11d48;
 }
 
 .login-error {
@@ -141,18 +209,20 @@ img:hover + div {
 .login-submit {
   margin-top: 4px;
   padding: 10px;
-  background: #2563eb;
+  background: #e11d48;
   border: none;
-  border-radius: 7px;
+  border-radius: 0;
   color: #fff;
-  font-size: 0.9rem;
-  font-weight: 600;
+  font-family: 'Bebas Neue', Impact, 'Arial Black', sans-serif;
+  font-size: 1rem;
+  font-weight: 400;
+  letter-spacing: 2px;
   cursor: pointer;
   transition: background 0.15s;
 }
 
 .login-submit:hover:not(:disabled) {
-  background: #1d4ed8;
+  background: #be1239;
 }
 
 .login-submit:disabled {

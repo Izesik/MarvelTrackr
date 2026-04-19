@@ -178,14 +178,16 @@ const ComicListDesktop = ({ isOwner = false, token = null }) => {
   };
 
   return (
-    <div className="comic-list-container">
-      <div className="comic-list-mobile">
-        {/* Edit Mode Banner */}
-        {isEditMode && (
-          <div className="edit-mode-banner">
-            <p>Edit mode is on. Drag comics to reorder.</p>
-          </div>
-        )}
+    <>
+      {/* Edit Mode Banner — sticky below navbar */}
+      {isEditMode && (
+        <div className="edit-mode-banner" role="status">
+          <span className="edit-mode-pip" aria-hidden="true" />
+          <p>Edit Mode &mdash; Drag comics to reorder</p>
+        </div>
+      )}
+      <div className="comic-list-container">
+        <div className="comic-list-mobile">
         <ProgressHeader
           purchasedComics={purchasedComics}
           totalComics={totalComics}
@@ -267,8 +269,9 @@ const ComicListDesktop = ({ isOwner = false, token = null }) => {
             </div>
           ))}
         </DndContext>
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 

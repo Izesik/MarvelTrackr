@@ -135,7 +135,49 @@
     color: #D8DBE2;
 }
 
-/* Comic action buttons */
+/* ===== Edit mode sticky banner ===== */
+.edit-mode-banner {
+    position: sticky;
+    top: 64px; /* navbar height */
+    z-index: 110;
+    width: 100%;
+    background: #0d0f14;
+    border-bottom: 3px solid #f59e0b;
+    padding: 10px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    box-sizing: border-box;
+    background-image: radial-gradient(circle, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+    background-size: 14px 14px;
+}
+
+.edit-mode-banner p {
+    margin: 0;
+    font-family: 'Bebas Neue', Impact, 'Arial Black', sans-serif;
+    font-size: 1rem;
+    letter-spacing: 3px;
+    color: #f59e0b;
+}
+
+/* Pulsing pip indicator */
+.edit-mode-pip {
+    display: inline-block;
+    width: 7px;
+    height: 7px;
+    background: #f59e0b;
+    border-radius: 0;
+    flex-shrink: 0;
+    animation: pip-pulse 1.6s ease-in-out infinite;
+}
+
+@keyframes pip-pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.25; }
+}
+
+/* ===== Comic action buttons (fixed floating) ===== */
 .comic-actions {
     position: fixed;
     right: 24px;
@@ -143,70 +185,67 @@
     display: flex;
     flex-direction: column;
     align-items: flex-end;
-    gap: 10px;
+    gap: 8px;
     margin: 0;
     z-index: 900;
 }
 
 .add-comic-button {
-    padding: 10px 16px;
-    background-color: #2563eb;
+    padding: 10px 22px;
+    background: #e11d48;
     color: #ffffff;
-    border: 1px solid #1d4ed8;
-    border-radius: 6px;
-    font-size: 0.95rem;
-    font-weight: 600;
+    border: none;
+    border-radius: 2px;
+    font-family: 'Bebas Neue', Impact, 'Arial Black', sans-serif;
+    font-size: 1rem;
+    font-weight: 400;
+    letter-spacing: 2.5px;
     display: inline-flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    transition: background-color 0.2s, border-color 0.2s, box-shadow 0.2s;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+    transition: background 0.15s;
+    box-shadow: 0 4px 20px rgba(225, 29, 72, 0.35), 0 2px 8px rgba(0, 0, 0, 0.4);
 }
 
 .add-comic-button:hover {
-    background-color: #1d4ed8;
-    border-color: #1e40af;
+    background: #be1239;
 }
 
 .edit-mode-button {
-    padding: 10px 16px;
-    background-color: #2b3648;
-    color: #f8fafc;
-    border: 1px solid #3b4252;
-    border-radius: 6px;
-    font-size: 0.95rem;
-    font-weight: 600;
+    padding: 10px 22px;
+    background: #0d0f14;
+    color: #94a3b8;
+    border: 1.5px solid rgba(255, 255, 255, 0.15);
+    border-radius: 2px;
+    font-family: 'Bebas Neue', Impact, 'Arial Black', sans-serif;
+    font-size: 1rem;
+    font-weight: 400;
+    letter-spacing: 2.5px;
     display: inline-flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    transition: background-color 0.2s, border-color 0.2s, box-shadow 0.2s;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+    transition: background 0.15s, border-color 0.15s, color 0.15s;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.45);
 }
 
 .edit-mode-button:hover {
-    background-color: #3b4252;
-    border-color: #4b5563;
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.25);
+    color: #f8fafc;
 }
 
 .edit-mode-button.active {
-    background-color: #f59e0b;
-    border-color: #d97706;
-    color: #1f2937;
+    background: rgba(245, 158, 11, 0.1);
+    border-color: rgba(245, 158, 11, 0.5);
+    color: #f59e0b;
+    box-shadow: 0 4px 20px rgba(245, 158, 11, 0.2), 0 2px 8px rgba(0, 0, 0, 0.4);
 }
 
-.edit-mode-banner {
-    background: #f59e0b;
-    color: #1f2937;
-    text-align: center;
-    font-size: 1rem;
-    font-weight: 600;
-    padding: 10px 14px;
-    border-radius: 6px;
-    border: 1px solid #d97706;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
-    margin-bottom: 16px;
+.edit-mode-button.active:hover {
+    background: rgba(245, 158, 11, 0.16);
+    border-color: rgba(245, 158, 11, 0.65);
 }
 
 /* Comic List Container - Ensure Proper Layout */
@@ -306,6 +345,11 @@
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); /* Adjust minmax as needed */
     }
+    .edit-mode-banner {
+        top: 52px; /* shorter navbar on mobile */
+        padding: 9px 16px;
+    }
+
     .comic-actions {
         right: 16px;
         left: 16px;

@@ -81,7 +81,12 @@ function App() {
       <ComicListDesktop isOwner={!!user} token={token} />
 
       <footer className="App-footer">
-        <p>Built on React. A Personal Marvel Comic Tracker.</p>
+        <div className="footer-inner">
+          <span className="footer-brand">Marvel Trackr</span>
+          <span className="footer-dot" aria-hidden="true">◆</span>
+          <span className="footer-tagline">Personal Collection Tracker</span>
+        </div>
+        <p className="footer-sub">Built on React &nbsp;·&nbsp; Not affiliated with Marvel Comics</p>
       </footer>
 
       {showLogin && (

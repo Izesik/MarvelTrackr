@@ -1,8 +1,8 @@
 /* ===== Modal overlay ===== */
 .DialogOverlay {
-  background: rgba(0, 0, 0, 0.6);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
+  background: rgba(0, 0, 0, 0.65);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
   position: fixed;
   inset: 0;
   z-index: 1000;
@@ -10,10 +10,11 @@
 
 /* ===== Modal sheet ===== */
 .DialogContent {
-  background: #161d2e;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: #111318;
+  border: 1.5px solid #1c2030;
+  border-top: 4px solid #e11d48;
   border-bottom: none;
-  border-radius: 16px 16px 0 0;
+  border-radius: 0;
   padding: 8px 24px 40px;
   width: 90%;
   max-width: 760px;
@@ -22,7 +23,7 @@
   bottom: 0;
   left: 50%;
   transform: translateX(-50%);
-  box-shadow: 0 -12px 48px rgba(0, 0, 0, 0.5), 0 -2px 8px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 -16px 56px rgba(0, 0, 0, 0.6);
   z-index: 1001;
   overflow-y: auto;
 }
@@ -31,14 +32,14 @@
 .DialogContent::before {
   content: "";
   display: block;
-  width: 36px;
-  height: 4px;
-  background: rgba(255, 255, 255, 0.12);
-  border-radius: 2px;
-  margin: 10px auto 20px;
+  width: 32px;
+  height: 3px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 0;
+  margin: 12px auto 22px;
 }
 
-/* Edit / delete icon buttons (gear & trash) */
+/* ===== Icon buttons (gear, trash) ===== */
 .edit-icon {
   position: absolute;
   top: 18px;
@@ -48,34 +49,33 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(255, 255, 255, 0.07);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 50%;
-  color: #94a3b8;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1.5px solid rgba(255, 255, 255, 0.1);
+  border-radius: 2px;
+  color: #64748b;
   font-size: 0.85rem;
   cursor: pointer;
-  transition: background 0.2s, border-color 0.2s, color 0.2s;
+  transition: background 0.15s, border-color 0.15s, color 0.15s;
 }
 
 .edit-icon:hover {
-  background: rgba(255, 255, 255, 0.13);
+  background: rgba(255, 255, 255, 0.09);
   border-color: rgba(255, 255, 255, 0.2);
   color: #f1f5f9;
 }
 
 .edit-icon[aria-label="Delete Comic"] {
-  color: #f87171;
-  background: rgba(248, 113, 113, 0.08);
-  border-color: rgba(248, 113, 113, 0.2);
+  color: #e11d48;
+  background: rgba(225, 29, 72, 0.07);
+  border-color: rgba(225, 29, 72, 0.25);
 }
 
 .edit-icon[aria-label="Delete Comic"]:hover {
-  background: rgba(248, 113, 113, 0.18);
-  border-color: rgba(248, 113, 113, 0.4);
-  color: #ef4444;
+  background: rgba(225, 29, 72, 0.15);
+  border-color: rgba(225, 29, 72, 0.45);
 }
 
-/* Close button */
+/* ===== Close button ===== */
 .IconButton {
   position: absolute;
   top: 18px;
@@ -85,21 +85,21 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(255, 255, 255, 0.07);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 50%;
-  color: #94a3b8;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1.5px solid rgba(255, 255, 255, 0.1);
+  border-radius: 2px;
+  color: #64748b;
   font-size: 0.8rem;
   font-weight: 700;
   cursor: pointer;
-  transition: background 0.2s, border-color 0.2s, color 0.2s;
+  transition: background 0.15s, border-color 0.15s, color 0.15s;
   line-height: 1;
 }
 
 .IconButton:hover {
-  background: rgba(248, 113, 113, 0.15);
-  border-color: rgba(248, 113, 113, 0.35);
-  color: #f87171;
+  background: rgba(225, 29, 72, 0.12);
+  border-color: rgba(225, 29, 72, 0.35);
+  color: #e11d48;
 }
 
 /* ===== Detail-view modal (read-only) ===== */
@@ -111,21 +111,18 @@
   position: relative;
   width: 100px;
   height: 150px;
-  border-radius: 5px;
-  margin-bottom: 10px;
+  flex-shrink: 0;
 }
 
 .modal-cover-art {
   width: 100%;
   height: 100%;
-  border-radius: 10px;
-  margin-bottom: 15px;
   margin-right: 20px;
 }
 
 .modal-top-section {
   display: flex;
-  margin-bottom: 10px;
+  margin-bottom: 16px;
 }
 
 .modal-comic-details {
@@ -134,32 +131,37 @@
 }
 
 .modal-comic-card-title {
-  color: #D8DBE2;
-  font-size: 1.3em;
-  margin-bottom: 10px;
+  font-family: 'Bebas Neue', Impact, 'Arial Black', sans-serif;
+  font-size: 1.5rem;
+  font-weight: 400;
+  letter-spacing: 2px;
+  color: #f8fafc;
+  margin: 0 0 8px;
+  line-height: 1.1;
 }
 
 .modal-comic-card-subtitle {
-  color: #a3a6ad;
-  font-size: 0.75em;
-  margin-bottom: 10px;
+  font-family: inherit;
+  font-size: 0.7em;
+  letter-spacing: 1px;
+  color: #4b5563;
+  font-weight: 400;
 }
 
 .page-count {
   display: flex;
   align-items: center;
   margin-bottom: 10px;
-  color: #a3a6ad;
-  font-weight: bold;
-  font-size: 0.80rem;
+  color: #64748b;
+  font-size: 0.78rem;
+  line-height: 1.4;
 }
 
 .issues {
   display: flex;
   align-items: center;
   margin-bottom: 10px;
-  color: #a3a6ad;
-  font-weight: bold;
+  color: #64748b;
   font-size: 0.75rem;
 }
 
@@ -167,61 +169,81 @@
   display: flex;
   align-items: center;
   margin-bottom: 10px;
-  color: #a3a6ad;
-  font-weight: bold;
+  color: #f59e0b;
+  gap: 1px;
+}
+
+.star-rating span {
+  font-size: 0.78rem;
+  color: #4b5563;
 }
 
 .star {
   font-size: 1em;
-  color: #ccc;
+  color: #2a2e3d;
 }
 
 .star.filled,
 .star.half-filled {
-  color: #f5a623;
+  color: #f59e0b;
 }
 
+/* Format/status badge in view mode */
 .modal-status {
-  padding: 5px 10px;
-  border-radius: 5px;
-  font-weight: bold;
+  display: inline-block;
+  padding: 4px 10px;
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  border: 1.5px solid transparent;
+  border-radius: 2px;
   margin-bottom: 10px;
 }
 
 .hardcover {
-  background-color: #2B4162;
-  color: #D8DBE2;
+  background: rgba(37, 99, 235, 0.12);
+  border-color: rgba(37, 99, 235, 0.35);
+  color: #93c5fd;
 }
 
 .paperback {
-  background-color: #B3C2F2;
-  color: #292D38;
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.12);
+  color: #94a3b8;
 }
 
 .modal-description {
-  font-weight: bold;
-  font-size: small;
-  margin-top: 10px;
-  color: #D8DBE2;
+  font-size: 0.83rem;
+  line-height: 1.55;
+  margin-top: 12px;
+  color: #94a3b8;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  padding-top: 12px;
 }
 
+/* Buy button */
 .comic-card-buy-button {
-  background-color: #ffa6005f;
-  color: white;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 10px;
-  cursor: pointer;
-  text-decoration: none;
-  font-weight: bold;
-  transition: background-color 0.3s;
   display: block;
   text-align: center;
   margin-top: 20px;
+  padding: 10px 20px;
+  background: rgba(245, 158, 11, 0.1);
+  border: 1.5px solid rgba(245, 158, 11, 0.35);
+  border-radius: 2px;
+  color: #f59e0b;
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s;
 }
 
 .comic-card-buy-button:hover {
-  background-color: #e59500c6;
+  background: rgba(245, 158, 11, 0.18);
+  border-color: rgba(245, 158, 11, 0.55);
 }
 
 @media (max-width: 769px) {

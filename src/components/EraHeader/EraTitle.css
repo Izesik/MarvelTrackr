@@ -2,67 +2,77 @@
 
 .era-title {
   position: relative;
-  background: linear-gradient(135deg, #1a2332 0%, #2d3748 50%, #1a2332 100%);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: #111318;
+  border: 1.5px solid #1c2030;
   color: white;
-  font-weight: 700;
-  padding: 20px 24px;
-  border-radius: 16px;
-  margin-bottom: 20px;
-  text-align: center;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4), 0 4px 16px rgba(0, 0, 0, 0.2),
-    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  padding: 14px 20px 14px 22px;
+  margin-bottom: 16px;
   display: flex;
-  flex-direction: column;
   align-items: center;
+  justify-content: space-between;
+  gap: 20px;
   overflow: hidden;
 }
 
-.era-name {
-  font-size: 1rem;
-  font-weight: 800;
-  letter-spacing: 1px;
-  margin-bottom: 14px;
-  background: linear-gradient(45deg, #ffffff, #cbd5e1);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
+/* Diagonal red slash in background */
+.era-title::before {
+  content: '';
+  position: absolute;
+  top: -20px;
+  left: 60px;
+  width: 120px;
+  height: 200%;
+  background: rgba(225, 29, 72, 0.04);
+  transform: skewX(-20deg);
+  pointer-events: none;
 }
 
-/* Stats row */
+.era-name {
+  font-family: 'Bebas Neue', Impact, 'Arial Black', sans-serif;
+  font-size: 1.9rem;
+  font-weight: 400;
+  letter-spacing: 3px;
+  color: #f8fafc;
+  white-space: nowrap;
+  flex-shrink: 0;
+  line-height: 1;
+  position: relative;
+  z-index: 1;
+}
+
+/* Stats row — right-aligned */
 .era-stats {
   display: flex;
-  justify-content: space-between;
-  align-items: stretch;
-  gap: 8px;
-  width: 100%;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 6px;
+  flex-wrap: wrap;
+  position: relative;
+  z-index: 1;
 }
 
 .stat-item {
-  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  gap: 4px;
-  padding: 8px 10px;
+  gap: 2px;
+  padding: 6px 12px;
   background: rgba(255, 255, 255, 0.04);
-  border-radius: 8px;
   border: 1px solid rgba(255, 255, 255, 0.07);
-  transition: background 0.2s ease, border-color 0.2s ease;
-  flex: 1;
-  min-width: 0;
+  border-radius: 0;
+  min-width: 60px;
   text-align: center;
+  transition: background 0.15s, border-color 0.15s;
 }
 
 .stat-item:hover {
-  background: rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.07);
   border-color: rgba(255, 255, 255, 0.12);
 }
 
 /* Value */
 .stat-number {
-  font-size: 0.82rem;
+  font-size: 0.85rem;
   color: #f1f5f9;
   font-weight: 500;
   line-height: 1;
@@ -75,22 +85,22 @@
 }
 
 .stat-fraction {
-  font-size: 0.85em;
-  color: #94a3b8;
+  font-size: 0.82em;
+  color: #4b5563;
   font-weight: 400;
 }
 
 /* Label */
 .stat-label {
-  font-size: 0.58rem;
-  color: #64748b;
+  font-size: 0.55rem;
+  color: #4b5563;
   text-transform: uppercase;
-  letter-spacing: 0.9px;
-  font-weight: 600;
+  letter-spacing: 1.2px;
+  font-weight: 700;
   white-space: nowrap;
 }
 
-/* Rating — stars inline with the number */
+/* Rating stars inline */
 .rating-inline {
   display: flex;
   align-items: center;
@@ -104,29 +114,49 @@
 }
 
 .star.filled {
-  color: #fbbf24;
-  filter: drop-shadow(0 1px 2px rgba(251, 191, 36, 0.4));
+  color: #f59e0b;
+  filter: drop-shadow(0 1px 2px rgba(245, 158, 11, 0.45));
 }
 
 .star.half-filled {
-  filter: drop-shadow(0 1px 2px rgba(251, 191, 36, 0.3));
+  filter: drop-shadow(0 1px 2px rgba(245, 158, 11, 0.3));
 }
 
 .star.empty {
-  color: #374151;
+  color: #2a2e3d;
 }
 
 /* Responsive */
 @media (max-width: 768px) {
   .era-title {
-    padding: 16px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 14px 16px 14px 20px;
+  }
+
+  .era-name {
+    font-size: 1.6rem;
+  }
+
+  .era-stats {
+    justify-content: flex-start;
+    width: 100%;
   }
 }
 
 @media (max-width: 480px) {
+  .era-name {
+    font-size: 1.4rem;
+    letter-spacing: 2px;
+  }
+
   .era-stats {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 6px;
+    gap: 5px;
+  }
+
+  .stat-item {
+    padding: 5px 10px;
+    min-width: 52px;
   }
 }

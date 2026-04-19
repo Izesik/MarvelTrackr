@@ -201,6 +201,12 @@
   margin-bottom: 10px;
 }
 
+.modal-reading-status {
+  background: rgba(225, 29, 72, 0.12);
+  border-color: rgba(225, 29, 72, 0.35);
+  color: #fda4af;
+}
+
 .hardcover {
   background: rgba(37, 99, 235, 0.12);
   border-color: rgba(37, 99, 235, 0.35);

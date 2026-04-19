@@ -8,6 +8,7 @@ import AddComic from './AddComic';
 
 const EventCardDesktop = ({ comic, updateComic, isOwner, token, onComicSaved, onComicDeleted }) => {
     const purchaseStatusClass = comic["PURCHASE_STATUS"] ? `event-status-purchase ${comic["PURCHASE_STATUS"].toLowerCase().replace(' ', '-')}` : '';
+    const isReadingClass = comic.IsReading ? 'event-status-reading' : '';
     const [isMobile, setIsMobile] = useState(window.innerWidth <= 1300);
     const [isModalOpen, setModalOpen] = useState(false);
     const [isEditing, setIsEditing] = useState(false);
@@ -65,6 +66,11 @@ const EventCardDesktop = ({ comic, updateComic, isOwner, token, onComicSaved, on
                         {comic["PURCHASE_STATUS"]}
                     </div>
                 )}
+                {comic.IsReading && (
+                    <div className={isReadingClass}>
+                        Currently Reading
+                    </div>
+                )}
             </div>
             <Dialog.Root open={isModalOpen} onOpenChange={setModalOpen}>
                 <Dialog.Portal>
@@ -117,6 +123,11 @@ const EventCardDesktop = ({ comic, updateComic, isOwner, token, onComicSaved, on
                                         <div className={`modal-status ${comic["HARDCOVER"] ? comic["HARDCOVER"].toLowerCase() : ''}`}>
                                             {comic["HARDCOVER"]}
                                         </div>
+                                        {comic.IsReading && (
+                                            <div className="modal-status modal-reading-status">
+                                                Currently Reading
+                                            </div>
+                                        )}
                                     </div>
                                 </div>
                                 <p className="modal-description">{comic.DESCRIPTION}</p>

@@ -24,6 +24,7 @@ const AddComic = ({ onClose, onComicSaved, onComicDeleted, comic = null, token =
     const [pages, setPages] = useState(comic ? comic.PAGES || '' : '');
     const [cost, setCost] = useState(comic ? comic.COST || '' : '');
     const [isEvent, setIsEvent] = useState(comic ? comic.EVENT || false : false);
+    const [isReading, setIsReading] = useState(comic ? comic.IsReading || false : false);
 
 
 
@@ -172,6 +173,7 @@ const AddComic = ({ onClose, onComicSaved, onComicDeleted, comic = null, token =
             PAGES: pages ? parseInt(pages) : null,
             COST: cost ? parseFloat(cost).toFixed(2) : null,
             EVENT: isEvent, // Store event status
+            IsReading: isReading,
         };
 
         const response = await fetch(`/api/comics${comic?._id ? `/${comic._id}` : ''}`, {
@@ -388,7 +390,20 @@ const AddComic = ({ onClose, onComicSaved, onComicDeleted, comic = null, token =
                     step="0.01"
                 />
             </div>
-            <div className="comic-event-toggle">
+            <div className="comic-boolean-toggle">
+                        <label className="comic-event-label">Currently Reading?</label>
+                        <div className="toggle-switch">
+                            <input
+                                type="checkbox"
+                                id="readingToggle"
+                                className="toggle-checkbox"
+                                checked={isReading}
+                                onChange={() => setIsReading(!isReading)}
+                            />
+                            <label htmlFor="readingToggle" className="toggle-label"></label>
+                        </div>
+            </div>
+            <div className="comic-boolean-toggle">
                         <label className="comic-event-label">Marvel Event?</label>
                         <div className="toggle-switch">
                             <input

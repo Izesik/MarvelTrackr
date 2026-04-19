@@ -62,6 +62,7 @@ const ComicCardMobile = ({
   };
 
   const purchaseStatus = comic["PURCHASE_STATUS"];
+  const isReading = comic.IsReading;
 
   const getStatusBarDialog = (status) => {
     if (status === "Purchased")
@@ -113,6 +114,7 @@ const ComicCardMobile = ({
           alt={`${comic.TITLE} cover art`}
           loading="lazy"
         />
+        {isReading && <div className="reading-badge">Reading</div>}
         {getStatusBarDialog(purchaseStatus)}
       </div>
       <Dialog.Root open={isModalOpen} onOpenChange={setModalOpen}>
@@ -172,6 +174,7 @@ const ComicCardMobile = ({
                       alt={`${comic.TITLE} cover art`}
                       loading="lazy"
                     />
+                    {isReading && <div className="reading-badge modal-reading-badge">Reading</div>}
                     {getStatusBarModalDialog(purchaseStatus)}
                   </div>
                   <div className="modal-comic-details">
@@ -195,6 +198,11 @@ const ComicCardMobile = ({
                     >
                       {comic["HARDCOVER"]}
                     </div>
+                    {isReading && (
+                      <div className="modal-status modal-reading-status">
+                        Currently Reading
+                      </div>
+                    )}
                   </div>
                 </div>
                 <p className="modal-description">{comic.DESCRIPTION}</p>

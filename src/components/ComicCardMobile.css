@@ -73,6 +73,28 @@
     transform: translateY(1px);
 }
 
+.reading-badge {
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    padding: 3px 7px;
+    border-radius: 4px;
+    background: rgba(225, 29, 72, 0.88);
+    border: 1px solid rgba(255, 255, 255, 0.28);
+    color: #fff;
+    font-size: 0.58rem;
+    font-weight: 700;
+    letter-spacing: 0.9px;
+    text-transform: uppercase;
+    z-index: 2;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.modal-reading-badge {
+    top: 6px;
+    left: 6px;
+}
+
 .purchased-mobile {
     background-color: #acc3a6c1;
     border: 1px solid rgba(255, 255, 255, 0.3); /* Border to enhance the frosted effect */

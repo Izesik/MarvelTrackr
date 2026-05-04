@@ -19,9 +19,8 @@ import "./ComicListNEW.css";
 import ComicCardMobile from "./ComicCardMobile";
 import EventCard from "./EventCard";
 import AddComic from "./AddComic";
-import * as Progress from "@radix-ui/react-progress";
 import * as Dialog from "@radix-ui/react-dialog";
-import { renderStars } from "../utils/utils";
+import CurrentlyReading from "./CurrentlyReading/CurrentlyReading";
 
 // NEW COMPONENTS
 import EraTitle from "./EraHeader/EraTitle";
@@ -34,12 +33,19 @@ const ComicListDesktop = ({ isOwner = false, token = null }) => {
   const [isEditMode, setIsEditMode] = useState(false); // Toggle for dragging
 
   const eras = [...new Set(filteredComics.map((comic) => comic.ERA))]; // Get unique eras
+  const currentlyReadingComic =
+    [...filteredComics]
+      .filter((comic) => comic.IsReading)
+      .sort(
+        (a, b) =>
+          (a.ORDER ?? Number.MAX_SAFE_INTEGER) -
+          (b.ORDER ?? Number.MAX_SAFE_INTEGER),
+      )[0] || null;
 
   const totalComics = filteredComics.length;
   const purchasedComics = comics.filter(
-    (comic) => comic["PURCHASE_STATUS"] === "Purchased"
+    (comic) => comic["PURCHASE_STATUS"] === "Purchased",
   ).length;
-  const progressValue = (purchasedComics / totalComics) * 100;
 
   const totalCost = comics.reduce((total, comic) => {
     return (
@@ -93,13 +99,13 @@ const ComicListDesktop = ({ isOwner = false, token = null }) => {
 
   const handleComicDeleted = (deletedComicId) => {
     setComics((prevComics) =>
-      prevComics.filter((c) => c._id !== deletedComicId)
+      prevComics.filter((c) => c._id !== deletedComicId),
     );
   };
 
   const sensors = useSensors(
     useSensor(PointerSensor, { activationConstraint: { distance: 5 } }),
-    useSensor(KeyboardSensor)
+    useSensor(KeyboardSensor),
   );
 
   const onDragEnd = async (event) => {
@@ -156,11 +162,11 @@ const ComicListDesktop = ({ isOwner = false, token = null }) => {
     const eraComics = comics.filter((comic) => comic.ERA === era);
     const totalCost = eraComics.reduce(
       (total, comic) => total + (comic.COST ? parseFloat(comic.COST) : 0),
-      0
+      0,
     );
     const totalPages = eraComics.reduce(
       (total, comic) => total + (comic.PAGES ? parseInt(comic.PAGES) : 0),
-      0
+      0,
     );
     const ratings = eraComics
       .filter((comic) => comic.RATING != null && comic.RATING > 0)
@@ -171,7 +177,7 @@ const ComicListDesktop = ({ isOwner = false, token = null }) => {
         ).toFixed(1)
       : "N/A";
     const purchasedComics = eraComics.filter(
-      (comic) => comic["PURCHASE_STATUS"] === "Purchased"
+      (comic) => comic["PURCHASE_STATUS"] === "Purchased",
     ).length;
 
     return { totalCost, totalPages, averageRating, purchasedComics };
@@ -188,87 +194,90 @@ const ComicListDesktop = ({ isOwner = false, token = null }) => {
       )}
       <div className="comic-list-container">
         <div className="comic-list-mobile">
-        <ProgressHeader
-          purchasedComics={purchasedComics}
-          totalComics={totalComics}
-          totalCost={totalCost}
-          totalPages={totalPages}
-          averageRating={averageRating}
-        />
-        {isOwner && (
-          <div className="comic-actions">
-            <button
-              className={`edit-mode-button ${isEditMode ? "active" : ""}`}
-              onClick={() => setIsEditMode(!isEditMode)}
-              aria-pressed={isEditMode}
-              type="button"
-            >
-              {isEditMode ? "Done" : "Edit Order"}
-            </button>
-
-            <Dialog.Root open={isModalOpen} onOpenChange={setIsModalOpen}>
-              <Dialog.Trigger asChild>
-                <button className="add-comic-button" type="button">
-                  Add Comic
-                </button>
-              </Dialog.Trigger>
-              <Dialog.Portal>
-                <Dialog.Overlay className="DialogOverlay" />
-                <Dialog.Content className="DialogContent">
-                  <Dialog.Close asChild>
-                    <button className="IconButton" aria-label="Close">
-                      X
-                    </button>
-                  </Dialog.Close>
-                  <AddComic
-                    onClose={() => setIsModalOpen(false)}
-                    onComicSaved={handleComicSaved}
-                    token={token}
-                  />
-                </Dialog.Content>
-              </Dialog.Portal>
-            </Dialog.Root>
-          </div>
-        )}
-
-        <DndContext
-          sensors={sensors}
-          collisionDetection={closestCorners}
-          onDragEnd={onDragEnd}
-        >
-          {eras.map((era) => (
-            <div id={era} key={era} className="era-section">
-              <EraTitle
-                era={era}
-                purchasedComics={getEraStatistics(era).purchasedComics}
-                totalComics={comics.filter((comic) => comic.ERA === era).length}
-                totalCost={getEraStatistics(era).totalCost}
-                totalPages={getEraStatistics(era).totalPages}
-                averageRating={getEraStatistics(era).averageRating}
-              />
-              <SortableContext
-                items={comics.filter((c) => c.ERA === era).map((c) => c._id)}
-                strategy={verticalListSortingStrategy}
+          <ProgressHeader
+            purchasedComics={purchasedComics}
+            totalComics={totalComics}
+            totalCost={totalCost}
+            totalPages={totalPages}
+            averageRating={averageRating}
+          />
+          <CurrentlyReading comic={currentlyReadingComic} />
+          {isOwner && (
+            <div className="comic-actions">
+              <button
+                className={`edit-mode-button ${isEditMode ? "active" : ""}`}
+                onClick={() => setIsEditMode(!isEditMode)}
+                aria-pressed={isEditMode}
+                type="button"
               >
-                <div className="comic-grid">
-                  {comics
-                    .filter((comic) => comic.ERA === era)
-                    .map((comic) => (
-                      <SortableComic
-                        key={comic._id}
-                        comic={comic}
-                        isEditMode={isEditMode}
-                        isOwner={isOwner}
-                        token={token}
-                        handleComicDeleted={handleComicDeleted}
-                        handleComicSaved={handleComicSaved}
-                      />
-                    ))}
-                </div>
-              </SortableContext>
+                {isEditMode ? "Done" : "Edit Order"}
+              </button>
+
+              <Dialog.Root open={isModalOpen} onOpenChange={setIsModalOpen}>
+                <Dialog.Trigger asChild>
+                  <button className="add-comic-button" type="button">
+                    Add Comic
+                  </button>
+                </Dialog.Trigger>
+                <Dialog.Portal>
+                  <Dialog.Overlay className="DialogOverlay" />
+                  <Dialog.Content className="DialogContent">
+                    <Dialog.Close asChild>
+                      <button className="IconButton" aria-label="Close">
+                        X
+                      </button>
+                    </Dialog.Close>
+                    <AddComic
+                      onClose={() => setIsModalOpen(false)}
+                      onComicSaved={handleComicSaved}
+                      token={token}
+                    />
+                  </Dialog.Content>
+                </Dialog.Portal>
+              </Dialog.Root>
             </div>
-          ))}
-        </DndContext>
+          )}
+
+          <DndContext
+            sensors={sensors}
+            collisionDetection={closestCorners}
+            onDragEnd={onDragEnd}
+          >
+            {eras.map((era) => (
+              <div id={era} key={era} className="era-section">
+                <EraTitle
+                  era={era}
+                  purchasedComics={getEraStatistics(era).purchasedComics}
+                  totalComics={
+                    comics.filter((comic) => comic.ERA === era).length
+                  }
+                  totalCost={getEraStatistics(era).totalCost}
+                  totalPages={getEraStatistics(era).totalPages}
+                  averageRating={getEraStatistics(era).averageRating}
+                />
+                <SortableContext
+                  items={comics.filter((c) => c.ERA === era).map((c) => c._id)}
+                  strategy={verticalListSortingStrategy}
+                >
+                  <div className="comic-grid">
+                    {comics
+                      .filter((comic) => comic.ERA === era)
+                      .map((comic) => (
+                        <SortableComic
+                          key={comic._id}
+                          comic={comic}
+                          isEditMode={isEditMode}
+                          isOwner={isOwner}
+                          token={token}
+                          handleComicDeleted={handleComicDeleted}
+                          handleComicSaved={handleComicSaved}
+                        />
+                      ))}
+                  </div>
+                </SortableContext>
+              </div>
+            ))}
+          </DndContext>
         </div>
       </div>
     </>
@@ -341,4 +350,3 @@ const SortableComic = ({
 };
 
 export default ComicListDesktop;
-
